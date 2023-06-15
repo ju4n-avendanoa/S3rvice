@@ -3,7 +3,7 @@ import fileUpload from "express-fileupload";
 import fileRouter from "./routes/files.route";
 
 const app = express();
-const PORT = 500;
+const PORT = 5000;
 
 app.use(express.json());
 app.use(fileUpload({ useTempFiles: true, tempFileDir: "./temp" }));

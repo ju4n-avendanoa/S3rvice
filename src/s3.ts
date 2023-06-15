@@ -1,4 +1,8 @@
-import { S3Client, PutObjectCommand } from "@aws-sdk/client-s3";
+import {
+  S3Client,
+  PutObjectCommand,
+  ListObjectsCommand,
+} from "@aws-sdk/client-s3";
 import { AWS_NAME, AWS_PUBLIC_KEY, AWS_REGION, AWS_SECRET_KEY } from "./config";
 import fs from "fs";
 import { UploadedFile } from "express-fileupload";
@@ -23,4 +27,18 @@ export async function uploadFile(file: UploadedFile) {
   const command = new PutObjectCommand(uploadParams);
   const result = await client.send(command);
   console.log(result);
+}
+
+export async function getFiles() {
+  try {
+    const getParams = {
+      Bucket: AWS_NAME,
+    };
+    console.log(getParams);
+    const command = new ListObjectsCommand(getParams);
+    console.log(command);
+    return await client.send(command);
+  } catch (e: any) {
+    console.log("El error esta aca");
+  }
 }
