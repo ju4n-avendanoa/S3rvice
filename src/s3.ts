@@ -2,6 +2,7 @@ import {
   S3Client,
   PutObjectCommand,
   ListObjectsCommand,
+  GetObjectCommand,
 } from "@aws-sdk/client-s3";
 import { AWS_NAME, AWS_PUBLIC_KEY, AWS_REGION, AWS_SECRET_KEY } from "./config";
 import fs from "fs";
@@ -41,4 +42,13 @@ export async function getFiles() {
   } catch (e: any) {
     console.log("El error esta aca");
   }
+}
+
+export async function getFileByParam(filename: string) {
+  const getParams = {
+    Bucket: AWS_NAME,
+    Key: filename,
+  };
+  const command = new GetObjectCommand(getParams);
+  return await client.send(command);
 }

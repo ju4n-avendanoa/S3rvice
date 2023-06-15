@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { getFiles, uploadFile } from "../s3";
+import { getFileByParam, getFiles, uploadFile } from "../s3";
 import { UploadedFile } from "express-fileupload";
 
 export async function uploadFileController(req: Request, res: Response) {
@@ -9,11 +9,13 @@ export async function uploadFileController(req: Request, res: Response) {
   res.send("Uploaded File");
 }
 
+export async function getFilesByParamController(req: Request, res: Response) {
+  const { filename } = req.params;
+  const file = await getFileByParam(filename);
+  res.json(file.$metadata);
+}
+
 export async function getFilesController(req: Request, res: Response) {
-  try {
-    const files = await getFiles();
-    res.send(files);
-  } catch {
-    console.log("El error esta en el controlador");
-  }
+  const files = await getFiles();
+  res.send(files);
 }
